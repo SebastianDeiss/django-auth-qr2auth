@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+<link rel="shortcut icon" href="{% static "images/favicon.ico" %}">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Sebastian Deiss">
+<meta name="copyright" content="(C) 2014-2015 Sebastian Deiss, all rights reserved.">
+<meta name="description" content="User friendly challenge response authentication with QR codes">
+<title>{% block title %}{% endblock %} | QRtoAuth demo site</title>
+</head>
+<body>
+<header>
+<img src="{% static "images/qrtoauth.png" %}" alt="QRtoAuth" title="QRtoAuth" width="200">
+<h2>User friendly challenge response authentication with QR codes</h2>
+User: <b>{{ user }}</b>
+{% if user.is_anonymous %}
+<a href="{% url 'django.contrib.auth.views.login' %}">login</a>
+<a href="{% url 'Index' %}">login with QRtoAuth</a>
+{% else %}
+<a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
+{% endif %}
+</header>
+<section id="main">
+{% block content %}{% endblock %}
+</section>
+<footer>
+<hr>
+Copyright &copy; 2014-2015 Sebastian Deiss, all rights reserved.
+</footer>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    

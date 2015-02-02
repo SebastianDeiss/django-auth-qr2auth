@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>{% block title %}QRtoAuth | User friendly challenge response authentication with QR codes{% endblock %}</title>
+</head>
+  <body>
+  	<header>
+  		<center>
+    	<h1>QRtoAuth</h1>
+    	User: <b>{{ user }}</b>
+      	{% if user.is_anonymous %}
+      	<a href="{% url 'django.contrib.auth.views.login' %}">login</a>
+		<a href="{% url 'Index' %}">login with QRtoAuth</a>
+      	{% else %}
+      	<a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
+      	{% endif %}
+      	<br><br>
+    	<nav>
+    	<a href="{% url 'Index' %}">Home</a><br>
+    	<a href="{% url 'ShowKey' %}">View QRtoAuth key</a><br>
+    	<a href="{% url 'RevokeKey' %}">Revoke key</a><br>
+    	<a href="{% url 'Keygen' %}">Get a new key</a>
+    	</nav>
+      	</center>
+    </header>
+    {% block content %}{% endblock %}
+    <br><br><br>
+    <footer>
+    	<hr>
+    	<center>Copyright &copy; 2014 Sebastian Deiss, all rights reserved.</center>
+    </footer>
+   </body>
+</html>
+    

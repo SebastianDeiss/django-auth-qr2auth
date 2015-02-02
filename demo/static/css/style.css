@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/* Copyright (C) 2014-2015 Sebastian Deiss,
+all rights reserved */
+
+header
+{
+	text-align: center;
+}
+
+body
+{
+	background-color: #999;
+}
+
+#main
+{
+	margin: 0 auto 20 auto;
+	max-width: 1000px;
+}
+
+a:link, a:active, a:visited
+{
+	color: #F00;
+}
+
+footer
+{
+	text-align: center;
+}
