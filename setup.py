@@ -1,11 +1,12 @@
 #
 # Copyright (C) 2014-2015 Sebastian Deiss, all rights reserved.
 #
-# This file is a part of QRtoAuth.
+# This file is a part of QR2Auth.
 #
-# QRtoAuth is free software; you can redistribute it and/or modify it under the
+# QR2Auth is free software; you can redistribute it and/or modify it under the
 # terms of the MIT licensee. For further information see LICENSE.txt in the
 # parent folder.
+#
 
 
 import os
@@ -18,15 +19,15 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='django-auth-qrtoauth',
+    name='django-auth-qr2auth',
     version='0.1',
-    packages=['qrtoauth'],
+    packages=['django_auth_qr2auth'],
     include_package_data=True,
     license='MIT',
-    description='QRtoAuth is an user friendly challenge respnse\
+    description='QR2Auth is an user friendly challenge respnse\
                 authentication with QR codes',
     long_description=README,
-    url='https://bitbucket.org/qrtoauthteam/',
+    url='https://bitbucket.org/qrtoauthteam/django-auth-qr2auth',
     author='Sebastian Deiss',
     author_email='sdeiss@haw-landshut.de',
     classifiers=[
