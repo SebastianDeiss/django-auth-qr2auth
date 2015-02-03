@@ -1,42 +1,36 @@
-# QRtoAuth #
+# QR2Auth #
 
 
 ### What is this repository for? ###
-
-* QRtoAuth: User friendly challenge response authentication with QR codes.
-* Version 0.1
+QR2Auth: User friendly challenge response authentication with QR codes.
 
 
 ### Requirements ###
-* Python >= 2.7.5
-* Django >= 1.6.1
-* PyCrypto >= 2.6.1
-* qrcode >= 5.1
+* Python >= 2.7.5      (https://www.python.org/)
+* Django >= 1.6.1      (https://www.djangoproject.com/download/)
+* PyCrypto >= 2.6.1    (https://pypi.python.org/pypi/pycrypto)
+* qrcode >= 5.1        (https://pypi.python.org/pypi/qrcode)
 
 
 ### Setup ###
 * Downlaod the latest release
 * Install it: python setup.py install
-* QRtoAuth ships a demo project. You can run that simply by changeing in the demo directory after installation and follow the steps in the next chapter.
+* QRtoAuth ships a demo project. You can run that simply by changeing in the demo directory even without installation and follow the steps in the next chapter.
 
 
 ### Usage ###
 #### Using the demo project ####
-cd demo/
 python manage.py runserver
 Use the default credentials
+* Username: admin Password: qr2auth (superuser)
+* Username: c3po Password: c3po     (testuser)
 
-#### Add QR2Auth to your django project äää#
+#### Add QR2Auth to your django project ####
 ##### migrate the database #####
 python manage.py migrate
-##### Run the project #####
-python manage.py runserver
 
-#### Default Credentials ####
-* Admin: 
-** Username: admin Password: qr2auth
-* Testuser:
-** Username: c3po Password: c3po
+##### Run your project #####
+python manage.py runserver
 
 
 ### Issues ###
