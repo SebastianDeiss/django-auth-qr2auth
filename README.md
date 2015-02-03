@@ -20,10 +20,10 @@ QR2Auth: User friendly challenge response authentication with QR codes.
 
 ### Usage ###
 #### Using the demo project ####
-python manage.py runserver
-Use the default credentials
-* Username: admin Password: qr2auth (superuser)
-* Username: c3po Password: c3po     (testuser)
+* python manage.py runserver
+* Use the default credentials
+** Username: admin Password: qr2auth (superuser)
+** Username: c3po Password: c3po     (testuser)
 
 #### Add QR2Auth to your django project ####
 ##### migrate the database #####
