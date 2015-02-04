@@ -1,9 +1,9 @@
 #
 # Copyright (C) 2014-2015 Sebastian Deiss, all rights reserved.
 #
-# This file is a part of QRtoAuth.
+# This file is a part of QR2Auth.
 #
-# QRtoAuth is free software; you can redistribute it and/or modify it under the
+# QR2Auth is free software; you can redistribute it and/or modify it under the
 # terms of the MIT licensee. For further information see LICENSE.txt in the
 # parent folder.
 #

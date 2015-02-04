@@ -1,9 +1,9 @@
 #
 # Copyright (C) 2014-2015 Sebastian Deiss, all rights reserved.
 #
-# This file is a part of QRtoAuth.
+# This file is a part of QR2Auth.
 #
-# QRtoAuth is free software; you can redistribute it and/or modify it under the
+# QR2Auth is free software; you can redistribute it and/or modify it under the
 # terms of the MIT licensee. For further information see LICENSE.txt in the
 # parent folder.
 #
@@ -15,9 +15,9 @@ from django.contrib.auth import login
 from django.utils import timezone
 from django.conf import settings
 
-from .models import QRtoAuthUser
-from .core import QRtoAuthCore, AESCipher
-from .backend import QRtoAuthBackend
+from .models import QR2AuthUser
+from .core import QR2AuthCore, AESCipher
+from .backend import QR2AuthBackend
 from StringIO import StringIO
 
 from django.views.decorators.debug import sensitive_post_parameters
@@ -54,7 +54,7 @@ def auth(request):
     challenge = request.POST.get('challenge')
     start = request.POST.get('start')
     end = request.POST.get('end')
-    qrtoauth = QRtoAuthCore()
+    qrtoauth = QR2AuthCore()
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -63,7 +63,7 @@ def auth(request):
                        'redirect_link': 'Index',
                        'redirect_link_text': 'Try again'})
     try:
-        qtauser = QRtoAuthUser.objects.get(user=user)
+        qtauser = QR2AuthUser.objects.get(user=user)
         if otp is None and challenge is None:
             if qtauser.has_valid_key is True:
                 challenge, start, end = qrtoauth.get_challenge()
@@ -86,7 +86,7 @@ def auth(request):
                 return render(request, 'qrtoauth/message.html',
                               {'msg': 'Your key has been revoked'})
         else:
-            user = QRtoAuthBackend()
+            user = QR2AuthBackend()
             user = user.authenticate(username, otp, challenge, start, end)
             if user is not None:
                 login(request, user)
@@ -97,7 +97,7 @@ def auth(request):
                               {'msg': 'Authentication failed',
                                'redirect_link': 'Index',
                                'redirect_link_text': 'Try again'})
-    except QRtoAuthUser.DoesNotExist:
+    except QR2AuthUser.DoesNotExist:
         return render(request, 'qrtoauth/message.html',
                       {'msg': 'Authentication failed',
                        'redirect_link': 'Index',
@@ -109,14 +109,14 @@ def keygen(request):
     user = User.objects.get(username=request.user)
     keygen = False  # Generate a key or not
     try:
-        qtauser = QRtoAuthUser.objects.get(user=user)
+        qtauser = QR2AuthUser.objects.get(user=user)
         if not qtauser.has_valid_key:
             keygen = True
-    except QRtoAuthUser.DoesNotExist:
+    except QR2AuthUser.DoesNotExist:
         keygen = True
 
     if keygen is True:
-        qta = QRtoAuthCore()
+        qta = QR2AuthCore()
         key = qta.keygen()
         key_img = qta.qrgen(key=True)
         output = StringIO()
@@ -124,8 +124,8 @@ def keygen(request):
         qrcode_img = output.getvalue()
         output.close()
         qrcode_img = base64.encodestring(qrcode_img)
-        qtauser = QRtoAuthUser.objects.get(user=user)
-        aes = AESCipher(settings.QTA_PASSPHRASE)
+        qtauser = QR2AuthUser.objects.get(user=user)
+        aes = AESCipher(settings.Q2A_PASSPHRASE)
         key_enc = aes.encrypt(key)
         qtauser.shared_secret = key_enc
         qtauser.ss_issue_date = timezone.now()
@@ -144,11 +144,11 @@ def keygen(request):
 def showkey(request):
     user = User.objects.get(username=request.user)
     try:
-        qtauser = QRtoAuthUser.objects.get(user=user)
+        qtauser = QR2AuthUser.objects.get(user=user)
         if qtauser.has_valid_key:
-            aes = AESCipher(settings.QTA_PASSPHRASE)
+            aes = AESCipher(settings.Q2A_PASSPHRASE)
             _shared_secret = aes.decrypt(qtauser.shared_secret)
-            qta = QRtoAuthCore(_shared_secret)
+            qta = QR2AuthCore(_shared_secret)
             qrcode = qta.qrgen(key=True)
             output = StringIO()
             qrcode.save(output)
@@ -180,7 +180,7 @@ def showkey(request):
 def revoke(request):
     user = User.objects.get(username=request.user)
     try:
-        qtauser = QRtoAuthUser.objects.get(user=user)
+        qtauser = QR2AuthUser.objects.get(user=user)
         if qtauser.key_revoked is False:
             qtauser.key_revoked = True
             qtauser.save()
@@ -193,7 +193,7 @@ def revoke(request):
                           {'msg': 'Your key is already revoked.',
                            'redirect_link': 'Keygen',
                            'redirect_link_text': 'Get a now one'})
-    except QRtoAuthUser.DoesNotExist:
+    except QR2AuthUser.DoesNotExist:
         return render(request, 'qrtoauth/message.html',
                       {'msg': 'You do not have a QRtoAuth key yet',
                        'redirect_link': 'Keygen',

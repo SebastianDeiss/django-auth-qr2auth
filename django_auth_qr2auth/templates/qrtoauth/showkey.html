@@ -1,10 +1,10 @@
 {% extends "qrtoauth/base.html" %}
 {% block content %}
 <div align="center">
-<h2>QRtoAuth Key of {{ user }}</h2>
+<h2>QR2Auth Key of {{ user }}</h2>
 {% if debug_ss %}
 <h4>DEBUG: {key}{{ debug_ss }}</h4>
 {% endif %}
-<img src="data:image/svg+xml;base64,{{ shared_secret }}" width="200" height="200" title="QRtoAuth Key of {{ user }}">
+<img src="data:image/svg+xml;base64,{{ shared_secret }}" width="200" height="200" title="QR2Auth Key of {{ user }}">
 </div>
 {% endblock %}

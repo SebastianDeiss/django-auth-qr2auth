@@ -1,9 +1,9 @@
 #
 # Copyright (C) 2014-2015 Sebastian Deiss, all rights reserved.
 #
-# This file is a part of QRtoAuth.
+# This file is a part of QR2Auth.
 #
-# QRtoAuth is free software; you can redistribute it and/or modify it under the
+# QR2Auth is free software; you can redistribute it and/or modify it under the
 # terms of the MIT licensee. For further information see LICENSE.txt in the
 # parent folder.
 #
@@ -15,14 +15,14 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-class QRtoAuthUser(models.Model):
+class QR2AuthUser(models.Model):
     '''
-    The QRtoAuth user model.
+    The QR2Auth user model.
     It extends Djangos default user model by adding a new model that contains
     the shared secret and information about the status. This model is related
     to the user model.
     It won't be created automaticly. It's created for the user once he requests
-    a shared secret to use QRtoAuth.
+    a shared secret to use QR2Auth.
     '''
     user = models.OneToOneField(User)
     shared_secret = models.CharField(max_length=236, blank=True, default='')
@@ -39,4 +39,4 @@ class QRtoAuthUser(models.Model):
         return False
 
     def __unicode__(self):
-        return "QRtoAuthUser model"
+        return "QR2AuthUser model"

@@ -3,9 +3,9 @@
 #
 # Copyright (C) 2014-2015 Sebastian Deiss, all rights reserved.
 #
-# This file is a part of QRtoAuth.
+# This file is a part of QR2Auth.
 #
-# QRtoAuth is free software; you can redistribute it and/or modify it under the
+# QR2Auth is free software; you can redistribute it and/or modify it under the
 # terms of the MIT licensee. For further information see LICENSE.txt in the
 # parent folder.
 #
@@ -53,7 +53,7 @@ def main():
 		help()
 		sys.exit(0)
 	# C3POs QR2Auth key
-	shared_secret = '3008b5d48bd28e46bdae44e4189fdc1847b667000968241f027056de959c53b8c9786207e53a18debfa9e4bcf4d414a2a1dd7d4e0cedc5210a86258f668293e2'
+	shared_secret = 'c88c51e6b1150c72d01a6f30daee6edc47471b573e9bde50f9e75c7704abd6aeed460fa9ac88faf550b8c76da4110b60dbbf27ae73dd5b8ca5ef88157512c965'
 	otp = make_otp(challenge, shared_secret, start, end)
 	
 	print('Your QR2Auth OTP is: ' + otp)

@@ -1,13 +1,13 @@
 #
 # Copyright (C) 2014-2015 Sebastian Deiss, all rights reserved.
 #
-# This file is a part of QRtoAuth.
+# This file is a part of QR2Auth.
 #
-# QRtoAuth is free software; you can redistribute it and/or modify it under the
+# QR2Auth is free software; you can redistribute it and/or modify it under the
 # terms of the MIT licensee. For further information see LICENSE.txt in the
 # parent folder.
 #
-# This file contains the QRtoAuth Django authentication backend.
+# This file contains the QR2Auth Django authentication backend.
 #
 
 import logging
@@ -15,22 +15,22 @@ from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .models import QRtoAuthUser
-from .core import QRtoAuthCore
+from .models import QR2AuthUser
+from .core import QR2AuthCore
 from django.conf import settings
 
 
 logger = logger = logging.getLogger(__name__)
 
 
-class QRtoAuthBackend(object):
+class QR2AuthBackend(object):
     '''
-    QRtoAuth Django authentication backend.
+    QR2Auth Django authentication backend.
     '''
     def authenticate(self, username=None, otp=None, challenge=None, start=None,
                      end=None):
         '''
-        Authenticate against QRtoAuth user database.
+        Authenticate against QR2Auth user database.
 
         :param str username: The name of the user to authenticate
         :param str otp: The generated one time password
@@ -43,7 +43,7 @@ class QRtoAuthBackend(object):
         '''
         try:
             user = User.objects.get(username=username)
-            qtauser = QRtoAuthUser.objects.get(user=user)
+            qtauser = QR2AuthUser.objects.get(user=user)
             '''
             If the login request does not come within 90 second after the
             challenge was issued to the user it is invalid and the auth will fail.
@@ -52,7 +52,7 @@ class QRtoAuthBackend(object):
             if timezone.now() > challenge_issue_date + timedelta(seconds=90):
                 logger.info('BACKEND: Auth failed! Response timeout!')
                 return None
-            qta = QRtoAuthCore(qtauser.shared_secret, settings.QTA_PASSPHRASE)
+            qta = QR2AuthCore(qtauser.shared_secret, settings.Q2A_PASSPHRASE)
             qta.set_challenge(challenge)
             auth = qta.verify_response(otp, start, end)
             if auth is True:
@@ -62,7 +62,7 @@ class QRtoAuthBackend(object):
             else:
                 logger.info('BACKEND Auth failed for user: %s' % username)
                 return None
-        except User.DoesNotExist, QRtoAuthUser.DoesNotExist:
+        except User.DoesNotExist, QR2AuthUser.DoesNotExist:
             return None
 
     def get_user(self, user_id):
@@ -75,7 +75,7 @@ class QRtoAuthBackend(object):
         '''
         try:
             user = User.objects.get(pk=user_id)
-            qtauser = QRtoAuthUser.objects.get(user=User)
+            qtauser = QR2AuthUser.objects.get(user=User)
             return user
-        except User.DoesNotExist, QRtoAuthUser.DoesNotExist:
+        except User.DoesNotExist, QR2AuthUser.DoesNotExist:
             return None

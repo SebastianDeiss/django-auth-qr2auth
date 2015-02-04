@@ -50,7 +50,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTHENTICATION_BACKENDS = (
-    'django_auth_qr2auth.backend.QRtoAuthBackend',
+    'django_auth_qr2auth.backend.QR2AuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -59,7 +59,7 @@ LOGOUT_URL = 'django.contrib.auth.views.logout'
 LOGIN_REDIRECT_URL = '/qrtoauth/'
 
 # QRtoAuth passphrase to decrypt the user shared_secrets
-QTA_PASSPHRASE = 'V/SfuEUwBVg4XI8Csbs8hZDoV4QNmaPbRQfvnU+/KqpiHHJmbmqHtDWbxH51Ok95'
+Q2A_PASSPHRASE = 'V/SfuEUwBVg4XI8Csbs8hZDoV4QNmaPbRQfvnU+/KqpiHHJmbmqHtDWbxH51Ok95'
 
 ROOT_URLCONF = 'demo.urls'
 

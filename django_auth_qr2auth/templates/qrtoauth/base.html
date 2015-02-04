@@ -1,23 +1,23 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>{% block title %}QRtoAuth | User friendly challenge response authentication with QR codes{% endblock %}</title>
+	<title>{% block title %}QR2Auth | User friendly challenge response authentication with QR codes{% endblock %}</title>
 </head>
   <body>
   	<header>
   		<center>
-    	<h1>QRtoAuth</h1>
+    	<h1>QR2Auth</h1>
     	User: <b>{{ user }}</b>
       	{% if user.is_anonymous %}
       	<a href="{% url 'django.contrib.auth.views.login' %}">login</a>
-		<a href="{% url 'Index' %}">login with QRtoAuth</a>
+		<a href="{% url 'Index' %}">login with QR2Auth</a>
       	{% else %}
       	<a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
       	{% endif %}
       	<br><br>
     	<nav>
     	<a href="{% url 'Index' %}">Home</a><br>
-    	<a href="{% url 'ShowKey' %}">View QRtoAuth key</a><br>
+    	<a href="{% url 'ShowKey' %}">View QR2Auth key</a><br>
     	<a href="{% url 'RevokeKey' %}">Revoke key</a><br>
     	<a href="{% url 'Keygen' %}">Get a new key</a>
     	</nav>
@@ -27,7 +27,7 @@
     <br><br><br>
     <footer>
     	<hr>
-    	<center>Copyright &copy; 2014 Sebastian Deiss, all rights reserved.</center>
+    	<center>Copyright &copy; 2014-2015 Sebastian Deiss, all rights reserved.</center>
     </footer>
    </body>
 </html>
