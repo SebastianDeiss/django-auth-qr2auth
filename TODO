@@ -1,4 +1,4 @@
-Add support for LDAP backend
 Add unit tests
 Use Sphinx for project documentation
-Setup advanced logging
+Add support for LDAP backend
+Setup advanced logging for LDAP backend
