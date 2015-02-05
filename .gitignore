@@ -2,3 +2,7 @@
 /.pydevproject
 *.pyc
 db.sqlite3
+docs/build/*
+dist/*
+build/*
+django_auth_qr2auth.egg-info/*
