@@ -125,7 +125,12 @@ class QR2AuthCore(object):
         _shared_secret = aes.decrypt(self.shared_secret.__str__())
         otp_hash = HMAC.new(_shared_secret,
                             self.challenge.__str__(), SHA512)
-        otp = otp_hash.hexdigest()[int(start):int(end)]
+        if end < start:
+            otp = otp_hash.hexdigest()[start:]
+            otp += otp_hash.hexdigest()[:end]
+        else:
+            otp = otp_hash.hexdigest()[int(start):int(end)]
+
         if otp == received_otp:
             return True
         return False
