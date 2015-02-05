@@ -128,7 +128,7 @@ def keygen(request):
         qtauser.ss_issue_date = timezone.now()
         qtauser.key_revoked = False
         qtauser.save()
-        logger.info('New key for user: %s' % username)
+        logger.info('New key for user: %s' % request.user)
         return render(request, 'qrtoauth/keygen.html',
                       {'qrcode_img': qrcode_img, 'debug_ss': key})
     else:
@@ -167,7 +167,7 @@ def showkey(request):
                               {'msg': 'You do not have a QRtoAuth key yet',
                                'redirect_link': 'Keygen',
                                'redirect_link_text': 'Get one'})
-    except QRtoAuthUser.DoesNotExist:
+    except QR2AuthUser.DoesNotExist:
         return render(request, 'qrtoauth/message.html',
                       {'msg': 'You do not have a QRtoAuth key yet',
                        'redirect_link': 'Keygen',
@@ -182,7 +182,7 @@ def revoke(request):
         if qtauser.key_revoked is False:
             qtauser.key_revoked = True
             qtauser.save()
-            logger.info('Revoked key of user: %s' % username)
+            logger.info('Revoked key of user: %s' % request.user)
             return render(request, 'qrtoauth/message.html',
                           {'msg': 'Your key has been revoked.',
                            'redirect_link': 'Keygen',
