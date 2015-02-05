@@ -29,9 +29,6 @@ import base64
 import logging
 
 
-logging.basicConfig(level = logging.INFO,
-                    format = '%(asctime)s %(levelname)s %(message)s',
-                    )
 logger = logging.getLogger(__name__)
 
 
@@ -131,6 +128,7 @@ def keygen(request):
         qtauser.ss_issue_date = timezone.now()
         qtauser.key_revoked = False
         qtauser.save()
+        logger.info('New key for user: %s' % username)
         return render(request, 'qrtoauth/keygen.html',
                       {'qrcode_img': qrcode_img, 'debug_ss': key})
     else:
@@ -184,6 +182,7 @@ def revoke(request):
         if qtauser.key_revoked is False:
             qtauser.key_revoked = True
             qtauser.save()
+            logger.info('Revoked key of user: %s' % username)
             return render(request, 'qrtoauth/message.html',
                           {'msg': 'Your key has been revoked.',
                            'redirect_link': 'Keygen',

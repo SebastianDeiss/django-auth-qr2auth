@@ -8,8 +8,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 import os
+import logging
+
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -60,6 +64,11 @@ LOGIN_REDIRECT_URL = '/qrtoauth/'
 
 # QRtoAuth passphrase to decrypt the user shared_secrets
 Q2A_PASSPHRASE = 'V/SfuEUwBVg4XI8Csbs8hZDoV4QNmaPbRQfvnU+/KqpiHHJmbmqHtDWbxH51Ok95'
+
+# setup logging
+logging.basicConfig(level = logging.INFO,
+                    format = '%(asctime)s %(levelname)s %(message)s',
+                    )
 
 ROOT_URLCONF = 'demo.urls'
 
