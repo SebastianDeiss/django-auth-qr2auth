@@ -8,6 +8,7 @@
 # parent folder.
 #
 
+
 from django.test import TestCase
 from .core import QR2AuthCore, AESCipher
 from Crypto.Hash import HMAC, SHA512
@@ -18,8 +19,9 @@ class QR2AuthCoreTests(TestCase):
     Test cases to verify that the core of QR2Auth is working.
     '''
     # global test vectors
-    shared_secret = '25cfc015a827b4027bfe0dfcf5aa683a5ee48a011a8d349adb4dc129eb3b3237\
-                     617854af2396c5865e3ba8dc2520736781805e08e7daea892c29bcb1ca953510'
+    shared_secret = '25cfc015a827b4027bfe0dfcf5aa683a5ee48a011a8d349adb4dc129e\
+                     b3b3237617854af2396c5865e3ba8dc2520736781805e08e7daea892c2\
+                     9bcb1ca953510'
     passphrase = 'QR2Auth'
 
     def test_aes(self):
