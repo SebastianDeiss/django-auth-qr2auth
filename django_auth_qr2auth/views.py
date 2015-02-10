@@ -78,13 +78,15 @@ def auth(request):
                                'challenge': challenge,
                                'start': start,
                                'end': end,
-                               'username': username})
+                               'username': username,
+                               'DEBUG': settings.DEBUG})
             else:
                 return render(request, 'qrtoauth/message.html',
                               {'msg': 'Your key has been revoked'})
         else:
             user = QR2AuthBackend()
-            user = user.authenticate(username, otp, challenge, start, end)
+            user = user.authenticate(username, otp.lower(), challenge, start,
+                                     end)
             if user is not None:
                 login(request, user)
                 logger.info('Authenticated user: %s' % username)
@@ -130,7 +132,9 @@ def keygen(request):
         qtauser.save()
         logger.info('New key for user: %s' % request.user)
         return render(request, 'qrtoauth/keygen.html',
-                      {'qrcode_img': qrcode_img, 'debug_ss': key})
+                      {'qrcode_img': qrcode_img,
+                       'debug_ss': key,
+                       'DEBUG': settings.DEBUG})
     else:
         return render(request, 'qrtoauth/message.html',
                       {'msg': 'You already have a key',
@@ -155,7 +159,8 @@ def showkey(request):
             qrcode_img = base64.encodestring(qrcode_img)
             return render(request, 'qrtoauth/showkey.html',
                           {'shared_secret': qrcode_img,
-                           'debug_ss': _shared_secret})
+                           'debug_ss': _shared_secret,
+                           'DEBUG': settings.DEBUG})
         else:
             if qtauser.key_revoked is True:
                 return render(request, 'qrtoauth/message.html',
