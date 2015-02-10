@@ -1,11 +1,12 @@
-{% extends "qrtoauth/base.html" %}
+{% extends "base.html" %}
+{% block title %}Authentication{% endblock %}
 {% block content %}
 <div align="center">
-<h2>QR2Auth Challenge</h2>
-{% if challenge and start and end%}
+<h2>QRtoAuth Challenge</h2>
+{% if DEBUG %}
 <h4>DEBUG: { {{ start }}, {{ end }} }{{ challenge }}</h4>
 {% endif %}
-<img src="data:image/svg+xml;base64,{{ qrcode_img }}" width="200" height="200" title="QR2Auth Challenge">
+<img src="data:image/svg+xml;base64,{{ qrcode_img }}" width="200" height="200" title="QRtoAuth Challenge">
 <h2>Enter one time password</h2>
 <form method="POST" action=".">
 {% csrf_token %}
@@ -15,7 +16,7 @@
 <input name="start" value="{{ start }}" type="hidden">
 <input name="end" value="{{ end }}" type="hidden">
 <br><br>
-<button type="submit">Login with QR2Auth</button>
+<button type="submit">Login with QRtoAuth</button>
 </form>
 </div>
 {% endblock %}

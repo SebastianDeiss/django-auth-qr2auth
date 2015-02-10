@@ -2,7 +2,7 @@
 {% block content %}
 <div align="center">
 <h2>New QR2Auth key for {{ user }}</h2>
-{% if debug_ss %}
+{% if DEBUG %}
 <h4>DEBUG: {key}{{ debug_ss }}</h4>
 {% endif %}
 <img src="data:image/svg+xml;base64,{{ qrcode_img }}" width="200" height="200" title="QR2Auth Key of {{ user }}">

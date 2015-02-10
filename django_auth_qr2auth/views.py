@@ -34,8 +34,8 @@ logger = logging.getLogger(__name__)
 
 def index(request):
     if request.user.is_authenticated():
-        return render(request, 'qrtoauth/home.html')
-    return render(request, 'qrtoauth/index.html')
+        return render(request, 'qr2auth/home.html')
+    return render(request, 'qr2auth/index.html')
 
 
 @sensitive_post_parameters()
@@ -55,7 +55,7 @@ def auth(request):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        return render(request, 'qrtoauth/message.html',
+        return render(request, 'qr2auth/message.html',
                       {'msg': 'Username does not match any records',
                        'redirect_link': 'Index',
                        'redirect_link_text': 'Try again'})
@@ -73,7 +73,7 @@ def auth(request):
                 output.close()
                 qrcode_img = base64.encodestring(qrcode_img)
                 request.challenge = challenge
-                return render(request, 'qrtoauth/auth.html',
+                return render(request, 'qr2auth/auth.html',
                               {'qrcode_img': qrcode_img,
                                'challenge': challenge,
                                'start': start,
@@ -81,7 +81,7 @@ def auth(request):
                                'username': username,
                                'DEBUG': settings.DEBUG})
             else:
-                return render(request, 'qrtoauth/message.html',
+                return render(request, 'qr2auth/message.html',
                               {'msg': 'Your key has been revoked'})
         else:
             user = QR2AuthBackend()
@@ -92,12 +92,12 @@ def auth(request):
                 logger.info('Authenticated user: %s' % username)
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
-                return render(request, 'qrtoauth/message.html',
+                return render(request, 'qr2auth/message.html',
                               {'msg': 'Authentication failed',
                                'redirect_link': 'Index',
                                'redirect_link_text': 'Try again'})
     except QR2AuthUser.DoesNotExist:
-        return render(request, 'qrtoauth/message.html',
+        return render(request, 'qr2auth/message.html',
                       {'msg': 'Authentication failed',
                        'redirect_link': 'Index',
                        'redirect_link_text': 'Try again'})
@@ -131,14 +131,14 @@ def keygen(request):
         qtauser.key_revoked = False
         qtauser.save()
         logger.info('New key for user: %s' % request.user)
-        return render(request, 'qrtoauth/keygen.html',
+        return render(request, 'qr2auth/keygen.html',
                       {'qrcode_img': qrcode_img,
                        'debug_ss': key,
                        'DEBUG': settings.DEBUG})
     else:
-        return render(request, 'qrtoauth/message.html',
+        return render(request, 'qr2auth/message.html',
                       {'msg': 'You already have a key',
-                       'redirect_link': 'javascript:history.back()',
+                       'redirect_link': 'Index',
                        'redirect_link_text': 'Back'})
 
 
@@ -157,23 +157,23 @@ def showkey(request):
             qrcode_img = output.getvalue()
             output.close()
             qrcode_img = base64.encodestring(qrcode_img)
-            return render(request, 'qrtoauth/showkey.html',
+            return render(request, 'qr2auth/showkey.html',
                           {'shared_secret': qrcode_img,
                            'debug_ss': _shared_secret,
                            'DEBUG': settings.DEBUG})
         else:
             if qtauser.key_revoked is True:
-                return render(request, 'qrtoauth/message.html',
+                return render(request, 'qr2auth/message.html',
                               {'msg': 'Your key has been revoked.',
                                'redirect_link': 'Keygen',
                                'redirect_link_text': 'Get a now one'})
             else:
-                return render(request, 'qrtoauth/message.html',
+                return render(request, 'qr2auth/message.html',
                               {'msg': 'You do not have a QRtoAuth key yet',
                                'redirect_link': 'Keygen',
                                'redirect_link_text': 'Get one'})
     except QR2AuthUser.DoesNotExist:
-        return render(request, 'qrtoauth/message.html',
+        return render(request, 'qr2auth/message.html',
                       {'msg': 'You do not have a QRtoAuth key yet',
                        'redirect_link': 'Keygen',
                        'redirect_link_text': 'Get one'})
@@ -188,17 +188,17 @@ def revoke(request):
             qtauser.key_revoked = True
             qtauser.save()
             logger.info('Revoked key of user: %s' % request.user)
-            return render(request, 'qrtoauth/message.html',
+            return render(request, 'qr2auth/message.html',
                           {'msg': 'Your key has been revoked.',
                            'redirect_link': 'Keygen',
                            'redirect_link_text': 'Get a now one'})
         else:
-            return render(request, 'qrtoauth/message.html',
+            return render(request, 'qr2auth/message.html',
                           {'msg': 'Your key is already revoked.',
                            'redirect_link': 'Keygen',
                            'redirect_link_text': 'Get a now one'})
     except QR2AuthUser.DoesNotExist:
-        return render(request, 'qrtoauth/message.html',
+        return render(request, 'qr2auth/message.html',
                       {'msg': 'You do not have a QRtoAuth key yet',
                        'redirect_link': 'Keygen',
                        'redirect_link_text': 'Get one'})
