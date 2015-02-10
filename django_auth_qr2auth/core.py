@@ -107,6 +107,15 @@ class QR2AuthCore(object):
         self.shared_secret = key.hexdigest()
         return self.shared_secret
 
+    def make_otp(self):
+        '''
+        Create a QR2Auth one-time password
+
+        :raise NotImplementedError: The server will never create an OTP, so
+                                    there not point to implement that.
+        '''
+        raise NotImplementedError
+
     def verify_response(self, received_otp, start, end):
         '''
         Verify the One time password (OTP) aka response.
@@ -126,8 +135,8 @@ class QR2AuthCore(object):
         otp_hash = HMAC.new(_shared_secret,
                             self.challenge.__str__(), SHA512)
         if end < start:
-            otp = otp_hash.hexdigest()[start:]
-            otp += otp_hash.hexdigest()[:end]
+            otp = otp_hash.hexdigest()[int(start):]
+            otp += otp_hash.hexdigest()[:int(end)]
         else:
             otp = otp_hash.hexdigest()[int(start):int(end)]
 
