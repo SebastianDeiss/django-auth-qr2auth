@@ -40,7 +40,7 @@ python manage.py runserver
 
 ### QR2Auth Android Application ###
 Of course this Django authentication module makes only sense with a mobile application.
-The QR2Auth Android App is still in development and a first release will be available soon.
+The QR2Auth Android App is available at https://bitbucket.org/qrtoauthteam/qrtoauthandroid
 
 
 ### LDAP Support ###
