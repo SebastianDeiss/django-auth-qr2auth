@@ -20,13 +20,22 @@ User: <b>{{ user }}</b>
 {% else %}
 <a href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
 {% endif %}
+<nav>
+{% if not user.is_anonymous %}
+<a href="{% url 'Index' %}">Home</a><br>
+<a href="{% url 'ShowKey' %}">View QR2Auth key</a><br>
+<a href="{% url 'RevokeKey' %}">Revoke key</a><br>
+<a href="{% url 'Keygen' %}">Get a new key</a>
+{% endif %}
+</nav>
 </header>
 <section id="main">
 {% block content %}{% endblock %}
 </section>
 <footer>
 <hr>
-Copyright &copy; 2014-2015 Sebastian Deiss, all rights reserved.
+Copyright &copy; 2014-2015 Sebastian Deiss, all rights reserved.<br>
+QR2Auth is a project of the <br><a href="https://www.uas-landshut.com/" title="University of Applied Sciences Landshut" target="_blank">University of Applied Sciences Landshut</a>
 </footer>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
