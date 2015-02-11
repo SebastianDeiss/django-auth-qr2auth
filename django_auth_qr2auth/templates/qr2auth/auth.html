@@ -10,7 +10,7 @@
 <form method="POST" action=".">
 {% csrf_token %}
 <input name="username" value="{{ username }}" type="hidden">
-<input name="otp" value="" id="otp" type="text">
+<input name="otp" value="" id="otp" type="text" style="text-transform:uppercase">
 <input name="challenge" value="{{ challenge }}" type="hidden">
 <input name="start" value="{{ start }}" type="hidden">
 <input name="end" value="{{ end }}" type="hidden">
