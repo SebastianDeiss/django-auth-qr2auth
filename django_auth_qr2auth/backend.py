@@ -20,7 +20,7 @@ from .core import QR2AuthCore
 from django.conf import settings
 
 
-logger = logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class QR2AuthBackend(object):
