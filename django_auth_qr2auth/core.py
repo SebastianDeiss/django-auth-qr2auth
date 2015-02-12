@@ -15,8 +15,12 @@ from Crypto.Random.random import StrongRandom, Random
 from Crypto.Hash import HMAC, SHA512
 from Crypto.Cipher import AES
 
+import logging
 import base64
 import qrcode.image.svg
+
+
+logger = logging.getLogger(__name__)
 
 
 class QR2AuthCore(object):
@@ -139,6 +143,10 @@ class QR2AuthCore(object):
             otp += otp_hash.hexdigest()[:int(end)]
         else:
             otp = otp_hash.hexdigest()[int(start):int(end)]
+
+        # do some logging
+        logger.debug('CORE Received OTP: %s' % received_otp)
+        logger.debug('CORE Computed OTP: %s' % otp)
 
         if otp == received_otp:
             return True
