@@ -142,7 +142,7 @@ class QR2AuthCore(object):
         # do some logging
         logger.debug('CORE Using shared secret: %s' % _shared_secret)
         logger.debug('CORE Using challenge: %s' % self.challenge)
-        logger.debug('CORE HMAC is: %s' % otp_hash)
+        logger.debug('CORE HMAC is: %s' % otp_hash.hexdigest())
         logger.debug('CORE OTP range is: (%i, %i)' % (int(start), int(end)))
 
         if end < start:
