@@ -139,17 +139,21 @@ class QR2AuthCore(object):
         otp_hash = HMAC.new(_shared_secret,
                             self.challenge.__str__(), SHA512)
 
+        # convert the received otp range from string to int
+        start = int(start)
+        end = int(end)
+
         # do some logging
         logger.debug('CORE Using shared secret: %s' % _shared_secret)
         logger.debug('CORE Using challenge: %s' % self.challenge)
         logger.debug('CORE HMAC is: %s' % otp_hash.hexdigest())
-        logger.debug('CORE OTP range is: (%i, %i)' % (int(start), int(end)))
+        logger.debug('CORE OTP range is: (%i, %i)' % (start, end))
 
         if end < start:
-            otp = otp_hash.hexdigest()[int(start):]
-            otp += otp_hash.hexdigest()[:int(end)]
+            otp = otp_hash.hexdigest()[start:]
+            otp += otp_hash.hexdigest()[:end]
         else:
-            otp = otp_hash.hexdigest()[int(start):int(end)]
+            otp = otp_hash.hexdigest()[start:end]
 
         # and log the OTPs
         logger.debug('CORE Received OTP: %s' % received_otp)
