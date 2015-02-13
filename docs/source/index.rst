@@ -16,6 +16,7 @@ Contents:
    settings
    core
    backend
+   util
 
 This is a Django authentication module and backend that implements QR2Auth authentication.
 QR2Auth is a user friendly challenge response authentication using QR codes. It requires an

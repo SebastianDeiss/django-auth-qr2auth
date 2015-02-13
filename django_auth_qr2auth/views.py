@@ -14,11 +14,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.utils import timezone
 from django.conf import settings
+from StringIO import StringIO
 
 from .models import QR2AuthUser
 from .core import QR2AuthCore, AESCipher
 from .backend import QR2AuthBackend
-from StringIO import StringIO
+from .util import is_ascii, is_integer
 
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
@@ -51,6 +52,13 @@ def auth(request):
     challenge = request.POST.get('challenge')
     start = request.POST.get('start')
     end = request.POST.get('end')
+    # check if the received POST parameters are valid
+    if challenge is not None and start is not None and end is not None:
+        if not is_ascii(challenge) or not is_integer(start) or not is_integer(end):
+            return render(request, 'qr2auth/message.html',
+                          {'msg': 'Authentication failed',
+                           'redirect_link': 'Index',
+                           'redirect_link_text': 'Try again'})
     qrtoauth = QR2AuthCore()
     try:
         user = User.objects.get(username=username)
