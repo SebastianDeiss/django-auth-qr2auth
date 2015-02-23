@@ -124,8 +124,10 @@ def keygen(request):
 
     if keygen is True:
         qta = QR2AuthCore()
-        key = qta.keygen()
-        key_img = qta.qrgen(key=True)
+        plain_key = qta.keygen()
+        # XOR the key with a pin
+        pin, key = qta.xor_key()
+        key_img = qta.qrgen(is_key=True, key=key)
         output = StringIO()
         key_img.save(output)
         qrcode_img = output.getvalue()
@@ -133,7 +135,7 @@ def keygen(request):
         qrcode_img = base64.encodestring(qrcode_img)
         qtauser = QR2AuthUser.objects.get(user=user)
         aes = AESCipher(settings.Q2A_PASSPHRASE)
-        key_enc = aes.encrypt(key)
+        key_enc = aes.encrypt(plain_key)
         qtauser.shared_secret = key_enc
         qtauser.ss_issue_date = timezone.now()
         qtauser.key_revoked = False
@@ -141,7 +143,9 @@ def keygen(request):
         logger.info('New key for user: %s' % request.user)
         return render(request, 'qr2auth/keygen.html',
                       {'qrcode_img': qrcode_img,
-                       'debug_ss': key,
+                       'pin': pin,
+                       'xored_key': key,
+                       'debug_ss': plain_key,
                        'DEBUG': settings.DEBUG})
     else:
         return render(request, 'qr2auth/message.html',
@@ -159,7 +163,8 @@ def showkey(request):
             aes = AESCipher(settings.Q2A_PASSPHRASE)
             _shared_secret = aes.decrypt(qtauser.shared_secret)
             qta = QR2AuthCore(_shared_secret)
-            qrcode = qta.qrgen(key=True)
+            pin, key = qta.xor_key()
+            qrcode = qta.qrgen(is_key=True, key=key)
             output = StringIO()
             qrcode.save(output)
             qrcode_img = output.getvalue()
@@ -167,6 +172,8 @@ def showkey(request):
             qrcode_img = base64.encodestring(qrcode_img)
             return render(request, 'qr2auth/showkey.html',
                           {'shared_secret': qrcode_img,
+                           'pin': pin,
+                           'xored_key': key,
                            'debug_ss': _shared_secret,
                            'DEBUG': settings.DEBUG})
         else:
