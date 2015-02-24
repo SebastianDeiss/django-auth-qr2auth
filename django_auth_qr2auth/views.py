@@ -102,6 +102,7 @@ def auth(request):
             else:
                 return render(request, 'qr2auth/message.html',
                               {'msg': 'Authentication failed',
+                               'display_info': True,
                                'redirect_link': 'Index',
                                'redirect_link_text': 'Try again'})
     except QR2AuthUser.DoesNotExist:

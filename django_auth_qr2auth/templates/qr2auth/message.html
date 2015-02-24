@@ -2,6 +2,9 @@
 {% block content %}
 <div align="center">
 <h2>{{ msg }}</h2>
+{% if display_info %}
+<h4>The password you entered is incorrect or you the PIN you entered to unlock the key on your phone is incorrect</h4>
+{% endif %}
 {% if redirect_link and redirect_link_text %}
 <a href="{%url redirect_link %}">{{ redirect_link_text }}</a>
 {% endif %}
