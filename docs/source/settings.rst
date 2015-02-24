@@ -5,6 +5,7 @@ Settings
 Available settings
 ==================
 * Q2A_PASSPHRASE
+* Q2A_OTP_LENGTH (must be a value between 6 and 10, default: 8)
 * LOGIN_URL
 * LOGOUT_URL
 * LOGIN_REDIRECT_URL
