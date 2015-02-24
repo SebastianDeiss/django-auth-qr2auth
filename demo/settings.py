@@ -62,8 +62,12 @@ LOGIN_URL = 'django.contrib.auth.views.login'
 LOGOUT_URL = 'django.contrib.auth.views.logout'
 LOGIN_REDIRECT_URL = '/qrtoauth/'
 
+
 # QRtoAuth passphrase to decrypt the user shared_secrets
 Q2A_PASSPHRASE = 'V/SfuEUwBVg4XI8Csbs8hZDoV4QNmaPbRQfvnU+/KqpiHHJmbmqHtDWbxH51Ok95'
+# Q2A_OTP_LENGTH must be in range(6, 10)
+Q2A_OTP_LENGTH = 8
+
 
 # setup logging
 logging.basicConfig(level = logging.INFO,

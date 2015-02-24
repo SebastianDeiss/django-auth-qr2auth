@@ -14,6 +14,7 @@
 from Crypto.Random.random import StrongRandom, Random
 from Crypto.Hash import HMAC, SHA512
 from Crypto.Cipher import AES
+from django.conf import settings
 
 import logging
 import base64
@@ -45,7 +46,10 @@ class QR2AuthCore(object):
         self.challenge = None
         self.start = None
         self.end = None
-        self.otp_length = 8     # 8 digest OTP
+        if settings.Q2A_OTP_LENGTH in range(6, 11):
+            self.otp_length = settings.Q2A_OTP_LENGTH
+        else:
+            self.otp_length = 8     # default: 8 digest OTP
         # encryption key for shared secret
         self.enc_key = enc_key
         self.shared_secret = shared_secret
