@@ -1,3 +1,5 @@
+Improve Webdesign of demo project
+Revoke shared secret after 5 failed authentication attempts
+Enhance project documentation
 Add support for LDAP backend
 Setup advanced logging for LDAP backend
-Enhance project documentation
