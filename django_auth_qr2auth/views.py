@@ -101,9 +101,13 @@ def auth(request):
             if user is not None:
                 login(request, user)
                 logger.info('Authenticated user: %s' % username)
-                # If authentication was successful reset failed_auths to 0
-                qtauser.failed_auths = 0
-                qtauser.save()
+                '''
+                If authentication was successful and previous authentications failed
+                reset failed_auths to 0.
+                '''
+                if qtauser.failed_auths > 0:
+                    qtauser.failed_auths = 0
+                    qtauser.save()
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
                 # Count failed authentications
