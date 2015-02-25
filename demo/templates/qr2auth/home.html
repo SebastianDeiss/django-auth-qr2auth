@@ -2,6 +2,13 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <div align="center">
-<h2>Welcome {{ user }}<h2>
+<h2>G'day {{ user }}. What's your next step?</h2>
+<nav>
+<ul>
+<li><a href="{% url 'ShowKey' %}">View QR2Auth Key</a></li>
+<li><a href="{% url 'RevokeKey' %}">Revoke QR2Auth Key</a></li>
+<li><a href="{% url 'Keygen' %}">Get a QR2Auth Key</a></li>
+</ul>
+</nav>
 </div>
 {% endblock %}

@@ -1,29 +1,117 @@
 @charset "UTF-8";
-/* Copyright (C) 2014-2015 Sebastian Deiss,
-all rights reserved */
 
-header
+/*
+***********************************
+Author: Sebastian Deiss
+Copyright: (C) 2015 Sebastian Deiss
+***********************************
+*/
+
+
+/* === global === */
+body
 {
+	text-align: center;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	text-align: center;
 }
 
-body
+a
 {
-	background-color: #999;
+	color: #CC0000;
+}
+
+
+/* === forms === */
+label
+{
+	background-color: transparent;
+	border-style: solid;
+	border-width: 0px 0px 1px 0px;
+	border-color: #CC0000;
+}
+
+input:focus
+{
+	box-shadow:0 0 2px 3px #CC0000;
+	border-radius:3px;
+}
+
+
+/* === header === */
+header
+{
+	padding-top: 10px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	width: 960px;
+	height: 100px;
+	margin: 0 auto 0 auto;
+	text-align: left;
+}
+
+header h1
+{
+	float: left;
+	width: 540px;
+}
+
+#nav
+{
+	float: right;
+	width: 420px;
+	text-align: right;
+}
+
+
+/* === navigation bar === */
+nav
+{
+	font-size: 20pt;
+	width: 350px;
+	margin: 0 auto 0 auto;
+}
+
+nav a
+{
+	text-decoration: none;
+}
+
+nav ul
+{
+	list-style: none;
+	padding: 0;
+}
+
+nav li:hover
+{
+	background-color: #ccc;
+}
+
+
+/* === main page === */
+#subtitle
+{
+	clear: both;
+	margin: 0 auto 0 auto;
+	color: #ccc;
+	text-align: left;
+	width: 960px;
+	padding-bottom: 30px;
 }
 
 #main
 {
-	margin: 0 auto 20 auto;
-	max-width: 1000px;
+	margin: 0 auto 0 auto;
+	padding-bottom: 30px;
 }
 
-a:link, a:active, a:visited
-{
-	color: #F00;
-}
 
+/* === footer === */
 footer
 {
-	text-align: center;
+	border-top: 1px solid #ccc;
+	width: 960px;
+	margin: 0 auto 0 auto;
+	padding-top: 10px;
 }
