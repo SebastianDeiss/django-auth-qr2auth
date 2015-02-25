@@ -115,8 +115,8 @@ def auth(request):
                 return render(request, 'qr2auth/message.html',
                               {'issue': 'Authentication failed',
                                'msg': 'The password you entered is incorrect' +
-                                      'or you the PIN you entered to unlock ' +
-                                      'the key on your phone is incorrect',
+                                      ' or you the PIN you entered to unlock' +
+                                      ' the key on your phone is incorrect',
                                'redirect_link': 'Index',
                                'redirect_link_text': 'Try again'})
     except QR2AuthUser.DoesNotExist:
