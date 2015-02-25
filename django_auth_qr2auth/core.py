@@ -144,7 +144,7 @@ class QR2AuthCore(object):
         Create a QR2Auth one-time password
 
         :raise NotImplementedError: The server will never create an OTP, so
-                                    there not point to implement that.
+                                    there is no point to implement that.
         '''
         raise NotImplementedError
 
