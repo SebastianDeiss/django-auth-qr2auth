@@ -101,8 +101,17 @@ def auth(request):
             if user is not None:
                 login(request, user)
                 logger.info('Authenticated user: %s' % username)
+                # If authentication was successful reset failed_auths to 0
+                qtauser.failed_auths = 0
+                qtauser.save()
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
+                # Count failed authentications
+                qtauser.failed_auths += 1
+                # Revoke the shared secret after Q2A_MAX_AUTH_TRIES has arrived
+                if qtauser.failed_auths == settings.Q2A_MAX_AUTH_TRIES:
+                    qtauser.key_revoked = True
+                qtauser.save()
                 return render(request, 'qr2auth/message.html',
                               {'issue': 'Authentication failed',
                                'msg': 'The password you entered is incorrect' +
@@ -146,6 +155,7 @@ def keygen(request):
         qtauser.shared_secret = key_enc
         qtauser.ss_issue_date = timezone.now()
         qtauser.key_revoked = False
+        qtauser.failed_auths = 0
         qtauser.save()
         logger.info('New key for user: %s' % request.user)
         return render(request, 'qr2auth/keygen.html',

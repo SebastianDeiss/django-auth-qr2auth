@@ -26,11 +26,13 @@ class QR2AuthUser(models.Model):
     '''
     user = models.OneToOneField(User)
     shared_secret = models.CharField(max_length=236, blank=True, default='')
-    ss_issue_date = models.DateField("Key issue date",
+    ss_issue_date = models.DateField('Key issue date',
                                      default=datetime.datetime(2014,10, 1, 11, 11, 11))
     key_revoked = models.BooleanField(default=False)
-    last_issued_challenge = models.DateTimeField("Last issued challenge",
+    last_issued_challenge = models.DateTimeField('Last issued challenge',
                                                  default=timezone.now())
+    failed_auths = models.PositiveSmallIntegerField('Failed authentications',
+                                                    default=0)
 
     @property
     def has_valid_key(self):
