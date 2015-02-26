@@ -119,14 +119,19 @@ def auth(request):
                 login(request, user)
                 logger.info('Authenticated user: %s' % username)
                 '''
-                If authentication was successful and previous authentications failed
-                reset failed_auths to 0.
+                If authentication was successful and previous authentications
+                failed reset failed_auths to 0.
                 '''
                 if qtauser.failed_auths > 0:
                     qtauser.failed_auths = 0
                     qtauser.save()
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
+                # Validate Q2A_MAX_AUTH_TRIES
+                if not settings.Q2A_MAX_AUTH_TRIES > 1:
+                    logger.error('AUTH: settings.Q2A_MAX_AUTH_TRIES' +
+                                 'must be > 1.')
+                    settings.Q2A_MAX_AUTH_TRIES = 5     # default: 5 auth tries
                 # Count failed authentications
                 qtauser.failed_auths += 1
                 # Revoke the shared secret after Q2A_MAX_AUTH_TRIES has arrived
