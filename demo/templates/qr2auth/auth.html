@@ -5,7 +5,7 @@
 {% if DEBUG %}
 <h4>DEBUG: { {{ start }}, {{ end }} }{{ challenge }}</h4>
 {% endif %}
-<img src="data:image/svg+xml;base64,{{ qrcode_img }}" width="300" height="300" title="QRtoAuth Challenge">
+<img src="data:image/svg+xml;base64,{{ qrcode_img }}" width="300" height="300" title="QR2Auth Challenge">
 <h2>Enter one time password</h2>
 <form method="POST" action=".">
 {% csrf_token %}
