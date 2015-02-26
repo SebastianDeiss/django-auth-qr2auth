@@ -11,8 +11,6 @@
 #
 
 import logging
-from datetime import timedelta
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 from .models import QR2AuthUser
@@ -44,14 +42,6 @@ class QR2AuthBackend(object):
         try:
             user = User.objects.get(username=username)
             qtauser = QR2AuthUser.objects.get(user=user)
-            '''
-            If the login request does not come within 90 second after the
-            challenge was issued to the user it is invalid and the auth will fail.
-            '''
-            challenge_issue_date = qtauser.last_issued_challenge
-            if timezone.now() > challenge_issue_date + timedelta(seconds=90):
-                logger.info('BACKEND: Auth failed! Response timeout!')
-                return None
             qta = QR2AuthCore(qtauser.shared_secret, settings.Q2A_PASSPHRASE)
             qta.set_challenge(challenge)
             auth = qta.verify_response(otp, start, end)

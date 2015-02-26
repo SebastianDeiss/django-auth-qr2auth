@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login
+from datetime import timedelta
 from django.utils import timezone
 from django.conf import settings
 from StringIO import StringIO
@@ -95,6 +96,22 @@ def auth(request):
                               {'issue': 'Authentication not possible',
                                'msg': 'Your key has been revoked'})
         else:
+            '''
+            If the login request does not come within 90 second after the
+            challenge was issued to the user it is invalid and the auth will
+            fail.
+            '''
+            challenge_issue_date = qtauser.last_issued_challenge
+            if timezone.now() > challenge_issue_date + timedelta(seconds=90):
+                logger.info('AUTH: Auth failed! Response timeout!')
+                return render(request, 'qr2auth/message.html',
+                              {'issue': 'Authentication failed',
+                               'msg': 'Response timeout! You did not' +
+                                      ' enter the one-time password within' +
+                                      ' 90 seconds',
+                               'redirect_link': 'Index',
+                               'redirect_link_text': 'Try again'})
+
             user = QR2AuthBackend()
             user = user.authenticate(username, otp.lower(), challenge, start,
                                      end)
