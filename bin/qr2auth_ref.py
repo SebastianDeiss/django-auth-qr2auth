@@ -31,10 +31,12 @@
 
 
 from __future__ import print_function
-from Crypto.Random.random import StrongRandom
+from Crypto.Random.random import StrongRandom, Random
 from Crypto.Hash import HMAC, SHA512
 
 import qrcode.image.svg
+import base64
+import string
 
 
 class QR2Auth(object):
@@ -117,6 +119,29 @@ class QR2Auth(object):
         self.__shared_secret = key.hexdigest()
         return self.__shared_secret
 
+    def xor_key(self):
+        '''
+        Bitwise XOR the shared secret with the pin.
+
+        :return: A tuple containing the PIN and the XORed
+                 shared secret.
+        :rtype: tuple
+        '''
+        # The PIN has 4 digits and we need 128 digits for
+        # XOR with the shared secret
+        pin = self.__pwgen()
+        padded_pin = pin * 32
+        '''
+        convert strings to a list of character pair tuples
+        go through each tuple, converting them to ASCII code (ord)
+        perform exclusive or on the ASCII code
+        then convert the result back to ASCII (chr)
+        merge the resulting array of characters as a string
+        '''
+        xored = ''.join(chr(ord(a) ^ ord(b)) for a,  b in zip(padded_pin,
+                                                             self.__shared_secret))
+        return pin, base64.encodestring(xored)
+
     def make_otp(self):
         '''
         Create a QR2Auth one-time password
@@ -162,7 +187,7 @@ class QR2Auth(object):
             return True
         return False
 
-    def qrgen(self, key=False):
+    def qrgen(self, is_key=False, key=''):
         '''
         Generate an SVG image containing the QR code
 
@@ -175,18 +200,45 @@ class QR2Auth(object):
         '''
         qrfactory = qrcode.image.svg.SvgImage
         # generate the QR code
-        if key is True:
+        if is_key is True:
             '''
             Add a prefix so that another application can distinguish the key
             from the challenge.
             '''
-            qrimg = qrcode.make('{key}' + self.__shared_secret,
+            qr_content = '{key}'
+            qr_content += key
+            # test vectors
+            key_hmac = HMAC.new(self.__shared_secret, self.__shared_secret, SHA512)
+            qr_content += ','
+            qr_content += key_hmac.hexdigest()
+            # make the QR code
+            qrimg = qrcode.make(qr_content,
                                 image_factory=qrfactory)
+            '''
+            qrimg = qrcode.make('{key}' + self.shared_secret,
+                                image_factory=qrfactory)
+            '''
         else:
             qrimg = qrcode.make('{' + str(self.__start) + ',' +
                                 str(self.__end) + '}' +
                                 self.__challenge, image_factory=qrfactory)
         return qrimg
+
+    #
+    # Internals
+    #
+    def __pwgen(self, size=4, chars=string.digits):
+        '''
+        Generate a password. This password is used as the PIN
+        for the bitwise XOR of the shared secret.
+
+        :param str size: The length of the password
+        :param str chars: The characters the password should contain.
+                          In this case we only want digits.
+        :return: A generated digit password
+        :rtype: string
+        '''
+        return ''.join(Random.random.choice(chars) for _ in range(size))
 
 
 def main():
@@ -196,8 +248,14 @@ def main():
 
     # Generate a shared secret
     __shared_secret = q2a.keygen()
-    print('QR2Auth shared secret: ')
+    print('QR2Auth plain shared secret: ')
     print(__shared_secret)
+    # XOR the shared secret with a PIN
+    PIN, xored_ss = q2a.xor_key()
+    print('QR2Auth protected shared secret:')
+    print(xored_ss)
+    print('PIN for this protected shared secret:')
+    print(PIN)
     # Set the shared secret
     q2a.set_shared_secret(__shared_secret)
 
@@ -218,7 +276,7 @@ def main():
         print('OTP does not match')
 
     # Save the shared secret in a QR code image
-    qrimg = q2a.qrgen(key=True)
+    qrimg = q2a.qrgen(is_key=True, key=xored_ss)
     qrimg.save(qrimg_keyfile)
     # Save the challenge in a QR code image
     qrimg = q2a.qrgen()
