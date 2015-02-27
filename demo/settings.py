@@ -66,7 +66,7 @@ LOGIN_REDIRECT_URL = '/qrtoauth/'
 # QRtoAuth passphrase to decrypt the user shared_secrets
 Q2A_PASSPHRASE = 'V/SfuEUwBVg4XI8Csbs8hZDoV4QNmaPbRQfvnU+/KqpiHHJmbmqHtDWbxH51Ok95'
 # Q2A_OTP_LENGTH must be in range(6, 10)
-Q2A_OTP_LENGTH = 8
+Q2A_OTP_LENGTH = 6
 # Revoke QR2Auth shared secret after 5 failed authentication attempts
 Q2A_MAX_AUTH_TRIES = 5
 
