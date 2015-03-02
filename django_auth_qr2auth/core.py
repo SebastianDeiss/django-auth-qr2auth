@@ -231,15 +231,16 @@ class QR2AuthCore(object):
     #
     # Internals
     #
-    def __pwgen(self, size=4, chars=string.digits):
+    def __pwgen(self, size=4, chars=string.digits+string.ascii_lowercase):
         '''
         Generate a password. This password is used as the PIN
         for the bitwise XOR of the shared secret.
 
-        :param str size: The length of the password
+        :param str size:  The length of the password
         :param str chars: The characters the password should contain.
-                          In this case we only want digits.
-        :return: A generated digit password
+                          In this case we want digits and ASCII lowercase
+                          letters.
+        :return: A generated PIN
         :rtype: string
         '''
         return ''.join(Random.random.choice(chars) for _ in range(size))
