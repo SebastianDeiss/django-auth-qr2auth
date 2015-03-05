@@ -140,9 +140,10 @@ def auth(request):
                 qtauser.save()
                 return render(request, 'qr2auth/message.html',
                               {'issue': 'Authentication failed',
-                               'msg': 'The password you entered is incorrect' +
-                                      ' or the PIN you entered to unlock' +
-                                      ' the key on your phone is incorrect',
+                               'msg': 'The one-time password you entered' +
+                                      ' is incorrect or the password to' +
+                                      ' unlock the key on your phone is' +
+                                      ' incorrect',
                                'redirect_link': 'Index',
                                'redirect_link_text': 'Try again'})
     except QR2AuthUser.DoesNotExist:
@@ -167,8 +168,8 @@ def keygen(request):
     if keygen is True:
         qta = QR2AuthCore()
         __plain_key = qta.keygen()
-        # XOR the key with a pin
-        pin, key = qta.xor_key()
+        # XOR the key with a password
+        qrpassword, key = qta.xor_key()
         key_img = qta.qrgen(is_key=True, key=key)
         output = StringIO()
         key_img.save(output)
@@ -186,7 +187,7 @@ def keygen(request):
         logger.info('New key for user: %s' % request.user)
         return render(request, 'qr2auth/keygen.html',
                       {'qrcode_img': qrcode_img,
-                       'pin': pin,
+                       'qrpassword': qrpassword,
                        'xored_key': key,
                        'plain_key': __plain_key,
                        'DEBUG': settings.DEBUG})
@@ -206,7 +207,7 @@ def showkey(request):
             aes = AESCipher(settings.Q2A_PASSPHRASE)
             __plain_key = aes.decrypt(qtauser.shared_secret)
             qta = QR2AuthCore(__plain_key)
-            pin, key = qta.xor_key()
+            qrpassword, key = qta.xor_key()
             qrcode = qta.qrgen(is_key=True, key=key)
             output = StringIO()
             qrcode.save(output)
@@ -215,7 +216,7 @@ def showkey(request):
             qrcode_img = base64.encodestring(qrcode_img)
             return render(request, 'qr2auth/showkey.html',
                           {'shared_secret': qrcode_img,
-                           'pin': pin,
+                           'qrpassword': qrpassword,
                            'xored_key': key,
                            'plain_key': __plain_key,
                            'DEBUG': settings.DEBUG})

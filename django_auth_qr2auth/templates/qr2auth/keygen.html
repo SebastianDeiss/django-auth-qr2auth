@@ -7,7 +7,7 @@
 <h4>DEBUG: QR code content: {key} {{ xored_key }}</h4>
 {% endif %}
 <br><br>
-<h4>The PIN to access this key is: {{ pin }}</h4>
+<h4>QR password: {{ pin }}</h4>
 <img src="data:image/svg+xml;base64,{{ qrcode_img }}" width="200" height="200" title="QR2Auth Key of {{ user }}">
 </div>
 {% endblock %}
