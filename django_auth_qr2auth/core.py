@@ -126,8 +126,8 @@ class QR2AuthCore(object):
         '''
         # The PIN has 4 digits and we need 128 digits for
         # XOR with the shared secret
-        pin = self.__pwgen()
-        padded_pin = pin * 32
+        qrpassword = self.__pwgen()
+        padded_pwd = qrpassword * 32
         '''
         convert strings to a list of character pair tuples
         go through each tuple, converting them to ASCII code (ord)
@@ -135,9 +135,9 @@ class QR2AuthCore(object):
         then convert the result back to ASCII (chr)
         merge the resulting array of characters as a string
         '''
-        xored = ''.join(chr(ord(a) ^ ord(b)) for a,  b in zip(padded_pin,
+        xored = ''.join(chr(ord(a) ^ ord(b)) for a,  b in zip(padded_pwd,
                                                              self.shared_secret))
-        return pin, base64.encodestring(xored)
+        return qrpassword, base64.encodestring(xored)
 
     def make_otp(self):
         '''
@@ -233,14 +233,14 @@ class QR2AuthCore(object):
     #
     def __pwgen(self, size=4, chars=string.digits+string.ascii_lowercase):
         '''
-        Generate a password. This password is used as the PIN
+        Generate a password. This password is used as the QR password
         for the bitwise XOR of the shared secret.
 
         :param str size:  The length of the password
         :param str chars: The characters the password should contain.
                           In this case we want digits and ASCII lowercase
                           letters.
-        :return: A generated PIN
+        :return: A generated QR password
         :rtype: string
         '''
         return ''.join(Random.random.choice(chars) for _ in range(size))
