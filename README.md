@@ -1,8 +1,8 @@
 # QR2Auth #
 
 
-### What is this repository for? ###
-QR2Auth: User friendly challenge response authentication with QR codes.
+### What is QR2Auth? ###
+QR2Auth is a user friendly challenge response authentication protocol that uses QR codes.
 
 
 ### Requirements ###
@@ -49,4 +49,4 @@ planed.
 
 
 ### Issues ###
-Please reports bugs to https://bitbucket.org/qr2auth/django-auth-qr2auth/issues
+Please reports bugs to https://bitbucket.org/qr2auth/qr2auth-django-auth-qr2auth/issues.
