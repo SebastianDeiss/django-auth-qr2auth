@@ -118,13 +118,13 @@ class QR2AuthCore(object):
 
     def xor_key(self):
         '''
-        Bitwise XOR the shared secret with the pin.
+        Bitwise XOR the shared secret with the QR password.
 
-        :return: A tuple containing the PIN and the XORed
+        :return: A tuple containing the QR password and the XORed
                  shared secret.
         :rtype: tuple
         '''
-        # The PIN has 4 digits and we need 128 digits for
+        # The QR password has 4 digits and we need 128 digits for
         # XOR with the shared secret
         qrpassword = self.__pwgen()
         padded_pwd = qrpassword * 32
