@@ -217,10 +217,6 @@ class QR2AuthCore(object):
             # make the QR code
             qrimg = qrcode.make(qr_content,
                                 image_factory=qrfactory)
-            '''
-            qrimg = qrcode.make('{key}' + self.shared_secret,
-                                image_factory=qrfactory)
-            '''
         else:
             qrimg = qrcode.make('{' + str(self.start) + ',' +
                                 str(self.end) + '}' +
