@@ -195,10 +195,9 @@ class QR2AuthCore(object):
         '''
         Generate an SVG image containing the QR code
 
-        :param str content: A SHA512 hash value that represents the key or the
-                            challenge
-        :param str type: Specifies the type of the hash value
-                         (key or challenge).
+        :param bool is_key: True if a shared secret QR code
+                            is created otherwise False
+        :param str key: The user's shared secret
         :return: An image object containing the SVG image
         :rtype: Object
         '''
