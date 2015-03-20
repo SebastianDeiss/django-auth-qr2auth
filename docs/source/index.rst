@@ -7,10 +7,11 @@
 Django authentication using QR2Auth
 ===================================
 This is a Django authentication module and backend that implements QR2Auth authentication.
-QR2Auth is a user friendly challenge response authentication with QR codes. It requires an
-app for your mobile device that scans the QR code and then processes the challenge from the
-QR code. The app then returns a unique one-time password which has to be entered at the website
-you want to authenticate against.
+
+QR2Auth is a challenge-response protocol which uses one time passwords and symmetric keys
+for authentication. The challenge is transmitted via QR code from the web service to the
+user’s PC. It enables the user to scan the QR code with a mobile device’s camera and
+receives a one-time password as a response for authentication on a web site.
 
 
 Contents
