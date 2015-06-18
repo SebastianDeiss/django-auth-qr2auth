@@ -25,7 +25,7 @@ setup(
     packages=['django_auth_qr2auth'],
     include_package_data=True,
     license='MIT',
-    description='QR2Auth is an user friendly challenge respnse\
+    description='QR2Auth is an user friendly challenge response\
                 authentication with QR codes',
     long_description=README,
     url='https://bitbucket.org/qr2auth/qr2auth-django-auth-qr2auth',
