@@ -11,6 +11,7 @@
 
 import os
 from setuptools import setup
+from django_auth_qr2auth import __version__
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
@@ -20,14 +21,14 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-auth-qr2auth',
-    version='0.1',
+    version=__version__,
     packages=['django_auth_qr2auth'],
     include_package_data=True,
     license='MIT',
     description='QR2Auth is an user friendly challenge respnse\
                 authentication with QR codes',
     long_description=README,
-    url='https://bitbucket.org/qrtoauthteam/django-auth-qr2auth',
+    url='https://bitbucket.org/qr2auth/qr2auth-django-auth-qr2auth',
     author='Sebastian Deiss',
     author_email='sdeiss@haw-landshut.de',
     classifiers=[
